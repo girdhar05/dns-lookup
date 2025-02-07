@@ -9,7 +9,50 @@ This project is a simple application where users can input an IP address or doma
 - **Docker Compose**: v2.x
 
 ## Project Structure
-. ├── backend/ │ ├── Dockerfile │ ├── package.json │ ├── src/ │ │ ├── server.ts │ │ ├── types.ts │ │ └── utils/ │ │ └── basic.ts │ └── tsconfig.json ├── frontend/ │ ├── Dockerfile │ ├── package.json │ ├── src/ │ │ ├── App.tsx │ │ ├── component/ │ │ │ ├── Button/ │ │ │ │ └── index.tsx │ │ │ └── InputBox/ │ │ │ └── index.tsx │ │ └── main.tsx │ └── tsconfig.json ├── docker-compose.yml └── README.md
+
+.
+├── backend
+│   ├── Dockerfile
+│   ├── package.json
+│   ├── package-lock.json
+│   ├── src
+│   │   ├── server.test.js
+│   │   ├── server.ts
+│   │   ├── types.ts
+│   │   └── utils
+│   │       └── basic.ts
+│   └── tsconfig.json
+├── docker-compose.yml
+├── frontend
+│   ├── Dockerfile
+│   ├── eslint.config.js
+│   ├── index.html
+│   ├── package.json
+│   ├── package-lock.json
+│   ├── public
+│   │   └── vite.svg
+│   ├── README.md
+│   ├── src
+│   │   ├── App.css
+│   │   ├── App.tsx
+│   │   ├── assets
+│   │   │   ├── cyderes.svg
+│   │   │   └── react.svg
+│   │   ├── component
+│   │   │   ├── Button
+│   │   │   │   └── index.tsx
+│   │   │   └── InputBox
+│   │   │       └── index.tsx
+│   │   ├── index.css
+│   │   ├── main.tsx
+│   │   ├── types
+│   │   │   └── data.ts
+│   │   └── vite-env.d.ts
+│   ├── tsconfig.app.json
+│   ├── tsconfig.json
+│   ├── tsconfig.node.json
+│   └── vite.config.ts
+└── README.md
 
 
 
