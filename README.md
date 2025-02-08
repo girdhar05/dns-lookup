@@ -9,7 +9,7 @@ This project is a simple application where users can input an IP address or doma
 - **Docker Compose**: v2.x
 
 ## Project Structure
-
+```
 .
 ├── backend
 │   ├── Dockerfile
@@ -53,7 +53,7 @@ This project is a simple application where users can input an IP address or doma
 │   ├── tsconfig.node.json
 │   └── vite.config.ts
 └── README.md
-
+```
 
 
 ## Installation
