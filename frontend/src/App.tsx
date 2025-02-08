@@ -43,13 +43,33 @@ function App() {
   const renderObject = (obj: any, indent: number = 0) => {
     const backgroundColor = indent % 2 === 0 ? 'bg-gray-100' : 'bg-gray-200';
     return Object.entries(obj).map(([key, value]) => (
-      <div key={key} style={{ marginLeft: indent * 20 }} className={`mx-12 mb-2 p-2 ${backgroundColor} flex`}>
-        <div className="w-1/2">
+      <div
+        key={key}
+        style={{ marginLeft: indent * 20 }}
+        className={`mx-4 md:mx-12 mb-2 p-2 ${backgroundColor} flex flex-wrap`}
+      >
+        {/* Key Container */}
+        <div className="w-full sm:w-1/3">
           <strong className="mr-2">{toTitleCase(key)}:</strong>
         </div>
-        <div className="w-1/2 border-l-2 border-gray-300 pl-2">
+        {/* Value Container */}
+        <div className="w-full sm:w-2/3 border-l-0 sm:border-l-2 border-gray-300 pl-0 sm:pl-2 break-words">
           {typeof value === 'object' && value !== null ? (
-            <div>{renderObject(value, indent + 1)}</div>
+            Array.isArray(value) ? (
+              // Render array elements
+              <div>
+                {value.map((item, index) => (
+                  <div key={index} className="ml-2">
+                    {typeof item === 'object' && item !== null
+                      ? renderObject(item, indent + 1)
+                      : String(item)}
+                  </div>
+                ))}
+              </div>
+            ) : (
+              // Recursively render nested object
+              renderObject(value, indent + 1)
+            )
           ) : (
             <span className="ml-2">{String(value)}</span>
           )}
@@ -57,15 +77,16 @@ function App() {
       </div>
     ));
   };
+  
 
   return (
     <div className="min-h-screen flex flex-col">
-      {/* Logo on top, centered horizontally */}
-      <div className="mt-4">
-        <img src={cyderes} alt="cyderes" className="mx-auto" />
+      {/* Logo on top */}
+      <div className="mt-4 px-4">
+        <img src={cyderes} alt="cyderes" className="mx-auto w-40 sm:w-48 md:w-56" />
       </div>
 
-      {/* Main content area */}
+      {/* Main content area wrapped in a responsive container */}
       <div className="flex-grow relative">
         {/* Loader Overlay */}
         {isLoading && (
@@ -79,25 +100,27 @@ function App() {
 
         {/* Render API response */}
         {apiResponse && (
-          <div className="mt-8 max-h-[38rem] overflow-y-scroll w-1/2 mx-auto custom-scrollbar">
-            <div className="bg-white p-4 border border-gray-400">
+          <div className="mt-8 max-h-[38rem] overflow-y-auto w-full max-w-3xl mx-auto custom-scrollbar">
+            <div className="bg-white p-4 border border-gray-400 rounded shadow">
               {renderObject(apiResponse)}
             </div>
           </div>
         )}
+
+        {/* Input and Button */}
         <div className="flex justify-center w-full">
           <div
-            className={
+            className={`flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-4 w-full max-w-md px-4 bg-gray-300 p-4 rounded-lg shadow-lg ${
               isButtonPressed
-                ? "absolute bottom-0 left-1/2 transform -translate-x-1/2 mb-4 flex space-x-4 w-full max-w-xs sm:max-w-md"
-                : "flex items-center justify-center h-full w-full max-w-xs sm:max-w-md mt-4"
-            }
+                ? "mt-4 sm:fixed sm:bottom-4 sm:left-1/2 sm:transform sm:-translate-x-1/2"
+                : "mt-4"
+            }`}
           >
             <InputBox
-              className="w-full mx-2"
+              className="w-full outline-none"
               placeholder="Enter IP or hostname"
               value={inputValue}
-              onKeyDown={(e) => handleKeyDown(e)}
+              onKeyDown={handleKeyDown}
               onChange={(e) => setInputValue(e.target.value)}
             />
             <Button onClick={handleClick}>Submit</Button>
