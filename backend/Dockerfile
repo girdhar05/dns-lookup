@@ -15,6 +15,7 @@ COPY . .
 
 # Compile TypeScript to JavaScript (outputs to the `dist` directory)
 RUN npm run build
+RUN npm run test
 
 # Copy the `dist` directory to the `/app` directory
 # RUN cp -r dist ./
