@@ -12,10 +12,17 @@ This project is a simple application where users can input an IP address or doma
 ```
 .
 ├── backend
+│   ├── dist
+│   │   ├── server.js
+│   │   ├── types.js
+│   │   └── utils
+│   │       └── basic.js
 │   ├── Dockerfile
 │   ├── package.json
 │   ├── package-lock.json
 │   ├── src
+│   │   ├── connection
+│   │   │   └── redis.ts
 │   │   ├── server.test.js
 │   │   ├── server.ts
 │   │   ├── types.ts
@@ -54,7 +61,6 @@ This project is a simple application where users can input an IP address or doma
 │   └── vite.config.ts
 └── README.md
 ```
-
 
 ## Installation
 
