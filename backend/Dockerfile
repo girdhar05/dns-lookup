@@ -1,6 +1,9 @@
 # Use an official Node.js runtime as the base image
 FROM node:22-alpine
 
+# Install Redis
+RUN apk add --no-cache redis
+
 # Set the working directory inside the container
 WORKDIR /app
 
@@ -15,7 +18,7 @@ COPY . .
 
 # Compile TypeScript to JavaScript (outputs to the `dist` directory)
 RUN npm run build
-RUN npm run test
+RUN npm run test -- --detectOpenHandles
 
 # Copy the `dist` directory to the `/app` directory
 # RUN cp -r dist ./

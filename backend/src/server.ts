@@ -3,6 +3,7 @@ import cors from 'cors';
 import { IPDetails, WhoisDetails } from './types';
 import { resolveDomain } from './utils/basic';
 import dotenv from 'dotenv'
+const redis = require('./connection/redis');
 dotenv.config()
 
 const app: Application = express();
@@ -53,6 +54,18 @@ app.get('/whois', async (req: Request, res: Response): Promise<void> => {
     res.status(400).json({ error: 'Query parameter is required' });
     return;
   }
+
+  // check if query is in cache or not
+  const cache = await redis.get(query)
+  if (cache) {
+    const cachedData = JSON.parse(cache);
+    const responseData = {
+      cached: true,
+      ...cachedData
+    };
+    res.status(200).json(responseData);
+    return
+  }
   
   // If query is a domain, resolve it to an IP
   let ip: string = query;
@@ -66,7 +79,9 @@ app.get('/whois', async (req: Request, res: Response): Promise<void> => {
   }
 
   const whoisData: WhoisDetails | {error: string} = await getWhoisDetails(ip);
-  res.json(whoisData);
+  //store data in cache
+  await redis.setex(query, 300, JSON.stringify(whoisData))
+  res.status(200).json(whoisData);
 });
 
 
