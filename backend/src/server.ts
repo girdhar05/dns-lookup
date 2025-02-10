@@ -3,7 +3,7 @@ import cors from 'cors';
 import { IPDetails, WhoisDetails } from './types';
 import { resolveDomain } from './utils/basic';
 import dotenv from 'dotenv'
-const redis = require('./connection/redis');
+import redisClient from './connection/redis';
 dotenv.config()
 
 const app: Application = express();
@@ -56,7 +56,7 @@ app.get('/whois', async (req: Request, res: Response): Promise<void> => {
   }
 
   // check if query is in cache or not
-  const cache = await redis.get(query)
+  const cache = await redisClient.get(query)
   if (cache) {
     const cachedData = JSON.parse(cache);
     const responseData = {
@@ -80,7 +80,7 @@ app.get('/whois', async (req: Request, res: Response): Promise<void> => {
 
   const whoisData: WhoisDetails | {error: string} = await getWhoisDetails(ip);
   //store data in cache
-  await redis.setex(query, 300, JSON.stringify(whoisData))
+  await redisClient.setex(query, 300, JSON.stringify(whoisData))
   res.status(200).json(whoisData);
 });
 
