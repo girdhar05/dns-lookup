@@ -13,14 +13,16 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
+      - name: Install Docker Compose
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker-compose
+
       - name: Setup Docker
-        run: docker --version
+        run: docker --version && docker-compose --version  # Verify installations
 
       - name: Build Backend Image
         run: docker-compose build backend
-
-      - name: Build Frontend Image
-        run: docker-compose build frontend
 
   push-to-dockerhub:
     needs: build-and-test
