@@ -56,7 +56,7 @@ jobs:
       - name: Deploy to Server
         run: |
           ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} "
-          cd /app &&
+          cd /root/project/cyderes-interview &&
           git pull origin main &&
           
           # Create .env file on the server
