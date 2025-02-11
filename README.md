@@ -5,6 +5,7 @@ This project is a simple application where users can input an IP address or doma
 ## Prerequisites
 
 - **Node.js**: v22.x
+- **Redis**: v5.0.x
 - **Docker**: v20.x
 - **Docker Compose**: v2.x
 
@@ -72,6 +73,10 @@ This project is a simple application where users can input an IP address or doma
     cd <repository-directory>
     ```
 
+2. **Set the environment variable**:
+    - create a .env file in both frontend and backend folder/repository
+    - copy the content of .env.local file content in .env file or put your own value if required. example: you have to put your own api key.
+
 2. **Build and start the containers**:
     ```sh
     docker-compose up --build
@@ -124,7 +129,7 @@ This project is a simple application where users can input an IP address or doma
 
 ## Environment Variables
 
-- **SERVER_IP**: IP address of the server
+- **VITE_API_URL**: IP address of the server
 - **IPINFO_API_KEY**: API key for IPInfo service
 
 ## License
