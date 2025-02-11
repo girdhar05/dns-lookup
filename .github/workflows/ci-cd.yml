@@ -3,27 +3,20 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - main
+      - main  # Runs on every push to the main branch
 
 jobs:
-  setup:
-    runs-on: ubuntu-latest
-    outputs:
-      docker-installed: "true"
-
-    steps:
-      - name: Install Docker & Docker Compose
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y docker-compose
-
   build-and-test:
-    needs: setup  # ✅ Ensure Docker & Docker Compose are available
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
+
+      - name: Install Docker & Docker Compose
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker-compose
 
       - name: Create .env file
         run: |
@@ -41,12 +34,17 @@ jobs:
         run: docker run --rm girdhar005/cyderes-backend:latest npm test
 
   push-to-dockerhub:
-    needs: build-and-test  # ✅ Ensure Docker & Docker Compose are available
+    needs: build-and-test
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
+      
+      - name: Install Docker & Docker Compose
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker docker-compose
 
       - name: Login to Docker Hub
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
@@ -62,7 +60,7 @@ jobs:
           docker push girdhar005/cyderes-frontend:latest
 
   deploy:
-    needs: push-to-dockerhub  # ✅ Ensure Docker & Docker Compose are available
+    needs: push-to-dockerhub
     runs-on: ubuntu-latest
 
     steps:
