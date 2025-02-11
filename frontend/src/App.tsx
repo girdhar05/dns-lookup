@@ -15,7 +15,7 @@ function App() {
     setIsButtonPressed(true);
     setIsLoading(true);
     try {
-      const response = await fetch(`http://139.59.27.213:5000/whois?query=${inputValue}`);
+      const response = await fetch(`http://${import.meta.env.VITE_API_URL}:5000/whois?query=${inputValue}`);
       const data: WhoisDetails = await response.json();
       setApiResponse(data);
       console.log("API Response:", data);
