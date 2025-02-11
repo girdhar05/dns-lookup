@@ -30,7 +30,6 @@ jobs:
       - name: Push Backend Image
         run: |
           docker-compose build backend
-          docker images
           docker push girdhar005/cyderes-backend:latest
 
       - name: Push Frontend Image
@@ -66,5 +65,6 @@ jobs:
 
           # Restart Docker Compose with updated env
           docker-compose down
+          docker-compose pull cyderes-frontend:latest cyderes-backend:latest
           docker-compose up -d
           "
