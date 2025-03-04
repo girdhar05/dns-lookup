@@ -1,5 +1,5 @@
 # DNS Lookup 
- - Cyderes Interview Assesment Project
+ - Cyderes Interview Assessment Project
 
 This project is a simple application where users can input an IP address or domain, and the system will respond with DNS lookup or WHOIS details.
 The project is made to solve the assesment for the company called Cyderes.
